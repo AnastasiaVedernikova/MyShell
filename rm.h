@@ -6,35 +6,15 @@
 #define MYSHELL_RM_H
 
 #endif //MYSHELL_RM_H
-#include <iostream>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <limits.h>
-#include <dirent.h>
-#include <sstream>
-#include <cstring>
+
 #include <vector>
-#include <bits/ios_base.h>
-#include <ios>
-#include <sys/stat.h>
-#include <iostream>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <limits.h>
-#include <dirent.h>
-#include <sstream>
-#include <cstring>
-#include <vector>
-#include <boost/bind.hpp>
-#include <fstream>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <algorithm>
-#include <map>
+
+
+
 #include <string>
-#include <boost/algorithm/string.hpp>
+
 #include <iostream>
-#include <boost/filesystem.hpp>
+
 
 using namespace std;
 namespace fs = boost::filesystem;

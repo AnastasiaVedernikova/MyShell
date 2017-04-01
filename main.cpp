@@ -1,20 +1,12 @@
 #include <iostream>
 #include <unistd.h>
-#include <sys/wait.h>
-#include <limits.h>
-#include <dirent.h>
 #include <sstream>
 #include <cstring>
 #include <vector>
 #include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/range/iterator_range.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <string>
+
 #include "mv.h"
 #include "cp.h"
 #include "rm.h"
@@ -26,8 +18,6 @@ using namespace std;
 namespace fs = boost::filesystem;
 
 
-//char *curr_dir = (char *) "/usr/bin";
-//char dir[100];
 string curr_dir = "/usr/bin";
 string a = "";
 string cm = "";
