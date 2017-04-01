@@ -3,7 +3,7 @@ project(MyShell)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp mv.h)
 add_executable(MyShell ${SOURCE_FILES})
 FIND_PACKAGE( Boost COMPONENTS filesystem program_options system REQUIRED )
 

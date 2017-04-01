@@ -15,6 +15,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <string>
+#include "mv.h"
 
 
 using namespace std;
@@ -27,46 +28,14 @@ string curr_dir = "/usr/bin";
 string a = "";
 string cm = "";
 
-string LastDir(){//повертає останнє знач директорії
-
-    std::vector<std::string> strs;
-    boost::split(strs, curr_dir, boost::is_any_of("/"));
-    return strs[strs.size()-1];
-
-}
-string CheckDot(){
-    std::vector<std::string> strs;
-    boost::split(strs, curr_dir, boost::is_any_of("/"));
-    if (strs[0] == ".."){
-        cout << "true" <<endl;
-        return "true";
-    }else{
-        cout << "false"<<endl;
-        return "false";
-    }
-}
-
-void deleteLast(){
-    string g = "";
-    std::vector<std::string> strs;
-    boost::split(strs, curr_dir, boost::is_any_of("/"));
-    for (int i=0; i<strs.size()-1; i++){
-        g+=strs[i];
-    }
-    cout<<g<<endl;
-
-
-}
-
-
-
 
 void splitString( string line){
     int i = 0;
     while(i != sizeof(line)){
         if(line[i] == ' '){
             cm = line.substr(0,i);
-            a = line.substr(i+1, sizeof(line));
+            a = line.substr(i+1, line.length()-1);
+            //sizeof(line)
             break;
         }else{
             cm = line;
@@ -154,6 +123,8 @@ int main(int argc, char* argv[], char**env)
 
         }else if(cm == "exit"){
             break;
+        }else if(cm == "mv"){
+            move(curr_dir, a);
         }
 
         cout << "\n";
