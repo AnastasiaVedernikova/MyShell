@@ -16,6 +16,10 @@
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include "mv.h"
+#include "cp.h"
+#include "rm.h"
+#include "mkdir.h"
+#include "ls.h"
 
 
 using namespace std;
@@ -125,6 +129,23 @@ int main(int argc, char* argv[], char**env)
             break;
         }else if(cm == "mv"){
             move(curr_dir, a);
+        }else if(cm == "cp"){
+            int pos = a.find(" /");
+            string ar = a;
+            string from = ar.substr(0, pos);
+            string to = ar.substr(pos+1, a.length() - 1);
+            cout << "from: " << from << ",   to: " << to << endl;
+            cp(from, to);
+
+        }else if(cm == "rm"){
+            rm(a);
+        }else if(cm == "help"){
+            cout<<"help: rm cp mv exit cd pwd ls mkdir"<<endl;
+
+        }else if(cm == "ls"){
+            ls(a, curr_dir);
+        }else if(cm == "mkdir"){
+            mkdir(curr_dir, a);
         }
 
         cout << "\n";
