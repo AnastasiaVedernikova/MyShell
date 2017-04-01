@@ -89,21 +89,42 @@ int cd(){
 
     if (strs[0] == ".."){
         for (int i=1; i<lines.size()-1; i++){
-            g+='/';
+
+            g+="/";
             g+=lines[i];
         }
         curr_dir = g;
-        cout<<curr_dir<<endl;
+       // cout<<curr_dir<<endl;
+
+        const char * c = curr_dir.c_str();
+        chdir(c);
     }else if (strs[0] == "."){
-        cout<<"not done yet"<<endl;
+        for (int i=1; i<lines.size(); i++){
+            g+="/";
+            g+=lines[i];
+        }
+        g+="/";
+        for(int i = 1; i < strs.size(); i++){
+            g+=strs[i];
+        }
+        if (fs::is_directory(g)){
+            curr_dir = g;
+            const char * c = curr_dir.c_str();
+            chdir(c);
+        }else{
+            cout<<"Error. Try again"<< endl;
+        }
+
+    }else if (args == "-h" || args == "--help"){
+        cout<<"cd: usage: [full dir], [..], [.], [./local dir]"<<endl;
     }
 
-
-
-   else if (fs::is_directory(args)){
+   else if (fs::is_directory(args)){//full directory
        chdir(args.c_str());
-       curr_dir += args;
-   }
+       curr_dir = args;
+   }else{
+        cout<<"no such directory"<<endl;
+    }
 
 
     return 0;
