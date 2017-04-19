@@ -7,7 +7,7 @@ void rm(string file){
     boost::split(strs, file, boost::is_any_of(" "));
 
     if (strs[0] == "-h" || strs[0] == "--help"){
-        cout<<"rm: usage: [-R], [-f], [dir], [file], [file1, file2, file3]"<<endl;
+        cout<<"rm: usage: [-f], [-R], [dir], [file], [file1, file2, file3]"<<endl;
     }
     else if(strs[0] == "-f" && strs[1] == "-R"){
         for(int i=2; i<strs.size(); i++){//+1

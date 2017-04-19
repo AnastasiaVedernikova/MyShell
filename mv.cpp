@@ -11,7 +11,7 @@ void mv(string curr_dir, string args) {
     boost::split(strs, args, boost::is_any_of(" "));
 
     if (strs[0] == "-h" || strs[0] == "--help"){
-        cout<<"mv: usage: [-f], [src, dest], [firstname, secondname], [src, src, dest]"<<endl;
+        cout<<"mv: usage: [-f], [old_name, new_name], [src, src, dest]"<< endl;
     }
     else if (strs.size()==3 & strs[0]=="-f") {                    //rename мовчки
          fs::path src(curr_dir + "/" + strs[1]);
