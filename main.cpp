@@ -118,7 +118,7 @@ int main(int argc, char* argv[], char**env)
         }else if(cm == "exit"){
             break;
         }else if(cm == "mv"){
-            move(curr_dir, a);
+            mv(curr_dir, a);
         }else if(cm == "cp"){
             int pos = a.find(" /");
             string ar = a;
