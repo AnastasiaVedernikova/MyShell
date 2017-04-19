@@ -3,6 +3,8 @@
 //
 
 #include "mv.h"
+using namespace std;
+
 void mv(string curr_dir, string args) {
     std::vector<std::string> strs;//arguments
     boost::split(strs, args, boost::is_any_of(" "));
@@ -44,12 +46,14 @@ void mv(string curr_dir, string args) {
 //
 //        }
 //    }
-    if (strs[0] == "-h" || "--help"){
-        cout<<"mv: usage: [-f], [src, dest], [firstname, secondname], [src, src, dest]"<<endl;
-    }
 
 
-    else if (strs.size()==3 & strs[0]=="-f") {
+//    if (strs[0] == "-h" || "--help"){
+//        cout<<"mv: usage: [-f], [src, dest], [firstname, secondname], [src, src, dest]"<<endl;
+//    }
+
+
+     if (strs.size()==3 & strs[0]=="-f") {
         fs::path src(curr_dir + "/" + strs[1]);
         fs::path dest(curr_dir + "/" + strs[2]);
         try {
@@ -59,8 +63,7 @@ void mv(string curr_dir, string args) {
             cout << "No such file " << endl;
 
         }
-    }else{
-
+    }else if (strs.size() == 2){
         string input = "";
         cout<<"Are you sure that you want to rename this file(y/n)?"<<endl;
         getline(cin , input);
@@ -69,10 +72,8 @@ void mv(string curr_dir, string args) {
             fs::path src(curr_dir + "/" + strs[0]);
             fs::path dest(curr_dir + "/" + strs[1]);
 
-
             //src("/home/anastasia/CLionProjects/MyShell/copy_test.txt");
             // dest("copy_test_res.txt");
-
 
             try {
                 fs::rename(src, dest);
@@ -82,7 +83,11 @@ void mv(string curr_dir, string args) {
                 // return false;
             }
         }
-    }
+    }else{
+         for(int i=0; i<strs.size()-1; i++){
+             fs::copy_file(curr_dir+"/"+strs[i], strs[strs.size()-1]+"/"+strs[i], fs::copy_option::overwrite_if_exists);
+             boost::filesystem::remove(strs[i]);
+         }
+     }
 
-    // return exists(dest);
 }

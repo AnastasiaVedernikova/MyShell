@@ -2,7 +2,7 @@
 // Created by anastasia on 19.04.17.
 //
 #include "cp.h"
-
+using namespace std;
 bool cp(string copy_from, string copy_to) {
     string s_path, d_path;
     vector<string> lst;

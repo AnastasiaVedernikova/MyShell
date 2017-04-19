@@ -10,10 +10,10 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>
 
-using namespace std;
+
 namespace fs = boost::filesystem;
 
-void rm(string file);
+void rm(std::string file);
 
 #endif //MYSHELL_RM_H
 

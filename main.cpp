@@ -97,25 +97,30 @@ int main(int argc, char* argv[], char**env)
 {
     string input = "";
 
-
-
     while(true)  {
         printf("> ");
         getline(cin , input);
         splitString(input);
 
         if (cm == "pwd"){
-
-            cout << curr_dir;
+            if (a == "-h"|| a == "--help"){
+                cout << "pwd: print current directory"<<endl;
+            }else{
+                cout << curr_dir;
+//            }else{
+//                cout <<"incorrect input"<<endl;
+            }
         }
-//        else if ( input == "ls"){
-//            ls();
-//
-//        }
         else if(cm == "cd"){
             cd();
 
         }else if(cm == "exit"){
+            if (a == "-h" || a == "--help"){
+                cout<<"exit[code of ending] finishes work and can return text of ending"<< endl;
+            }
+            else if (a != ""){
+                cout << a << endl;
+            }
             break;
         }else if(cm == "mv"){
             mv(curr_dir, a);

@@ -85,9 +85,9 @@
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
-using namespace std;
+
 namespace fs = boost::filesystem;
 
-bool cp(string copy_from, string copy_to);
+bool cp(std::string copy_from, std::string copy_to);
 
 #endif //SHELL_1_CP_H

@@ -11,9 +11,9 @@
 #include <boost/algorithm/string.hpp>
 
 namespace fs = boost::filesystem;
-using namespace std;
 
-void mkdir(string curr_dir, string a);
+
+void mkdir(std::string curr_dir, std::string a);
 
 #endif //MYSHELL_MKDIR_H
 

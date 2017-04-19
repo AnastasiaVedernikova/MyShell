@@ -8,10 +8,10 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>
 
-using namespace std;
+
 namespace fs = boost::filesystem;
 
-void mv(string curr_dir, string args);
+void mv(std::string curr_dir, std::string args);
 
 #endif //MYSHELL_MV_H
 

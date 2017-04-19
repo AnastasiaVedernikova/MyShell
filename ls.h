@@ -13,9 +13,9 @@
 #include <boost/algorithm/string.hpp>
 
 namespace fs = boost::filesystem;
-using namespace std;
 
-void ls(string a, string curr_dir);
+
+void ls(std::string a, std::string curr_dir);
 
 #endif //MYSHELL_LS_H
 

@@ -1,6 +1,6 @@
 
 #include "rm.h"
-
+using namespace std;
 void rm(string file){
     ///home/anastasia/CLionProjects/MyShell
     std::vector<std::string> strs;//arguments

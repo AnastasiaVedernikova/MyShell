@@ -2,6 +2,7 @@
 // Created by anastasia on 19.04.17.
 //
 #include "ls.h"
+using namespace std;
 void ls(string a, string curr_dir) {
     std::vector<std::string> lines;
     boost::split(lines, a, boost::is_any_of(" "));
