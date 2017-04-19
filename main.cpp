@@ -154,6 +154,8 @@ int main(int argc, char* argv[], char**env)
                 ls(a, curr_dir);
             } else if (cm == "mkdir") {
                 mkdir(curr_dir, a);
+            }else{
+                cout<<"incorrect command"<<endl;
             }
         } else {
             do {

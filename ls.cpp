@@ -3,10 +3,10 @@
 //
 #include "ls.h"
 using namespace std;
-void ls(string a, string curr_dir) {
+int ls(string a, string curr_dir) {
     std::vector<std::string> lines;
     boost::split(lines, a, boost::is_any_of(" "));
-    if(lines[0] == "-h" || "--help"){
+    if(lines[0] == "-h" || lines[0] == "--help"){
         cout<<"list of appropriate files"<<endl;
     }
     fs::path p{a.length() > 1 ? a : curr_dir};
@@ -15,5 +15,6 @@ void ls(string a, string curr_dir) {
             cout << entry << "\n";
         }
     }
+    return 1;
 }
 
