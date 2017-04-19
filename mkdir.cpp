@@ -21,9 +21,9 @@ using namespace std;
 void mkdir(string curr_dir, string a){
     std::size_t found = a.find("/");
     if (found!=std::string::npos) {
-        boost::filesystem::create_directories(curr_dir + a);
+        boost::filesystem::create_directories(curr_dir +"/"+ a);
     } else {
-        boost::filesystem::create_directory(curr_dir + a);
+        boost::filesystem::create_directory(curr_dir +"/"+ a);
     }
 }
 

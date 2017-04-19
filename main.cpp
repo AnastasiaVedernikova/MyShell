@@ -7,6 +7,8 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/algorithm/string.hpp>
 
+#include <sys/wait.h>
+
 #include "mv.h"
 #include "cp.h"
 #include "rm.h"
@@ -93,54 +95,70 @@ int cd(){
     return 0;
 
 }
+
+
 int main(int argc, char* argv[], char**env)
 {
     string input = "";
 
-    while(true)  {
+    pid_t pid, wpid;
+    int status;
+
+
+    while(true) {
         printf("> ");
-        getline(cin , input);
+        getline(cin, input);
         splitString(input);
 
-        if (cm == "pwd"){
-            if (a == "-h"|| a == "--help"){
-                cout << "pwd: print current directory"<<endl;
-            }else{
-                cout << curr_dir;
-//            }else{
-//                cout <<"incorrect input"<<endl;
-            }
-        }
-        else if(cm == "cd"){
-            cd();
+        pid = fork();
 
-        }else if(cm == "exit"){
-            if (a == "-h" || a == "--help"){
-                cout<<"exit[code of ending] finishes work and can return text of ending"<< endl;
-            }
-            else if (a != ""){
-                cout << a << endl;
-            }
-            break;
-        }else if(cm == "mv"){
-            mv(curr_dir, a);
-        }else if(cm == "cp"){
-            int pos = a.find(" /");
-            string ar = a;
-            string from = ar.substr(0, pos);
-            string to = ar.substr(pos+1, a.length() - 1);
-            cout << "from: " << from << ",   to: " << to << endl;
-            cp(from, to);
+        if (pid == -1) {
+            perror("fork failed");
+            exit(EXIT_FAILURE);
+        } else if (pid == 0) {
 
-        }else if(cm == "rm"){
-            rm(a);
-        }else if(cm == "help"){
-            cout<<"help: rm cp mv exit cd pwd ls mkdir"<<endl;
+            if (cm == "pwd") {
+                if (a == "-h" || a == "--help") {
+                    cout << "pwd: print current directory" << endl;
+                } else {
+                    cout << curr_dir;
+                    //            }else{
+                    //                cout <<"incorrect input"<<endl;
+                }
+            } else if (cm == "cd") {
+                cd();
 
-        }else if(cm == "ls"){
-            ls(a, curr_dir);
-        }else if(cm == "mkdir"){
-            mkdir(curr_dir, a);
+            } else if (cm == "exit") {
+                if (a == "-h" || a == "--help") {
+                    cout << "exit[code of ending] finishes work and can return text of ending" << endl;
+                } else if (a != "") {
+                    cout << a << endl;
+                }
+                break;
+            } else if (cm == "mv") {
+                mv(curr_dir, a);
+            } else if (cm == "cp") {
+                int pos = a.find(" /");
+                string ar = a;
+                string from = ar.substr(0, pos);
+                string to = ar.substr(pos + 1, a.length() - 1);
+                cout << "from: " << from << ",   to: " << to << endl;
+                cp(from, to);
+
+            } else if (cm == "rm") {
+                rm(a);
+            } else if (cm == "help") {
+                cout << "help: rm cp mv exit cd pwd ls mkdir" << endl;
+
+            } else if (cm == "ls") {
+                ls(a, curr_dir);
+            } else if (cm == "mkdir") {
+                mkdir(curr_dir, a);
+            }
+        } else {
+            do {
+                wpid = waitpid(pid, &status, WUNTRACED);
+            } while (!WIFEXITED(status) && !WIFSIGNALED(status));
         }
 
         cout << "\n";

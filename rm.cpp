@@ -30,7 +30,7 @@ void rm(string file){
         if (input == "y") {
             for (int i = 0; i < strs.size(); i++) {
                 if (boost::filesystem::exists(strs[i])) {
-                    boost::filesystem::remove(strs[i]);
+                    boost::filesystem::remove_all(strs[i]);
                 }
             }
         }
