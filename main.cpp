@@ -6,6 +6,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/algorithm/string.hpp>
+#include <algorithm>
+#include <locale>
 
 #include <sys/wait.h>
 
@@ -138,12 +140,63 @@ int main(int argc, char* argv[], char**env)
             } else if (cm == "mv") {
                 mv(curr_dir, a);
             } else if (cm == "cp") {
-                int pos = a.find(" /");
-                string ar = a;
-                string from = ar.substr(0, pos);
-                string to = ar.substr(pos + 1, a.length() - 1);
-                cout << "from: " << from << ",   to: " << to << endl;
-                cp(from, to);
+                int br_num = count(a.begin(), a.end(), '{') + count(a.begin(), a.end(), '}');
+                vector<string> strs;
+                string answer;
+                locale loc;
+
+                boost::split(strs, a, boost::is_any_of(" "));
+                if (strs[0] == "-h" || strs[0] == "--help") {
+                    cout << "cp help: \n\t-f\t\t-force copy;\n"
+                            "Examples:\n"
+                            "\tcp /directory_copyfrom/filename /directory_copyin/filename_of_copy\n"
+                            "\tcp /directory_copyfrom/{filename1 .. filenameN} /directory_copyin/\n"
+                            "\n\t~ uses current directory:\n"
+                            "\tcp /directory_copyfrom/filename filename_of_copy\n"
+                            "\tcp filename filename_of_copy\n"
+                            "\tcp filename /directory_copyto/filename_of_copy\n"
+                            "\tcp {filename1 .. filenameN} /directory_copyin/\n"
+                            "Do not forget about the extension of a file! Otherwise copied file will be empty!\n" << endl;
+
+                }
+                if (strs[1] == "-f" || strs[0] == "-f") {
+                    answer = "y";
+                } else {
+                    cout << "Do you really want to copy file(s)? (y/n)" << endl;
+                    cin >> answer;
+                }
+
+                strs.erase(remove(strs.begin(), strs.end(), "-h"), strs.end());
+                strs.erase(remove(strs.begin(), strs.end(), "--help"), strs.end());
+                strs.erase(remove(strs.begin(), strs.end(), "-f"), strs.end());
+
+                string ar;
+
+                for (size_t i = 0; i < strs.size(); ++i) {
+                    if (i != 0)
+                        ar += ' ';
+                    ar += strs[i];
+                }
+
+                for (size_t i = 0; i < answer.length(); ++i) {
+                    answer[i] = tolower(answer[i], loc);
+                }
+
+                if (answer == "y" || answer == "yes") {
+                    if (br_num != 2 && br_num != 0) {
+                        cout << "Input Error! Try again!" << endl;
+                    } else {
+                        int pos;
+                        if (br_num == 2) {
+                            pos = ar.find("}") + 1;
+                        } else if (br_num == 0) {
+                            pos = ar.find(" ");
+                        }
+                        string from = ar.substr(0, pos);
+                        string to = ar.substr(pos + 1, ar.length() - 1);
+                        cp(from, to);
+                    }
+                }
 
             } else if (cm == "rm") {
                 rm(a);
