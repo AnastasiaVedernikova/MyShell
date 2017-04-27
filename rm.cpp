@@ -1,7 +1,7 @@
 
 #include "rm.h"
 using namespace std;
-void rm(string file){
+int rm(string file){
     ///home/anastasia/CLionProjects/MyShell
     std::vector<std::string> strs;//arguments
     boost::split(strs, file, boost::is_any_of(" "));
@@ -51,6 +51,7 @@ void rm(string file){
         }
 
     }
+    return 1;
 
 
 

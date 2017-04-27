@@ -8,23 +8,23 @@
 #include <boost/algorithm/string.hpp>
 
 #include <sys/wait.h>
+#include <set>
+//TO DO
+//розібратись з cd(після нього не паше ніц)
+//дописати ls cp
 
-#include "mv.h"
-#include "cp.h"
-#include "rm.h"
-#include "mkdir.h"
-#include "ls.h"
+
 
 
 using namespace std;
 namespace fs = boost::filesystem;
 
 
-string curr_dir = "/usr/bin";
-string a = "";
-string cm = "";
+// string curr_dir = ""; //"/usr/bin";
+//string a = "";
+//string cm = "";
 
-
+#if 0
 void splitString( string line){
     int i = 0;
     while(i != sizeof(line)){
@@ -39,17 +39,35 @@ void splitString( string line){
         i++;
     }
 }
+#endif
 
-int cd(){
-    string args = a;
+int cd(const vector<string>& in_args) {
 
+    string args = in_args[1];
+    if (args == "-h" || args == "--help") {
+        cout << "cd - change directory: usage: [full dir], [..], [.], [./local dir]" << endl;
+    } else if (chdir(args.c_str()) != 0) {
+        perror("Error cd:");
+    }
+
+    return 0;
+}
+int pwd(std::vector<std::string>& a){
+    if (a.size() == 1){
+    cout << boost::filesystem::current_path().string() << endl;
+    }else if (a[1] == "-h" || a[1] == "--help") {
+        cout << "pwd: print current directory" << endl;
+    }
+
+}
+#if 0
     string g = "";
     std::vector<std::string> strs;//arguments
     boost::split(strs, args, boost::is_any_of("/"));
 
 
     std::vector<std::string> lines;//curr_dir
-    boost::split(lines, curr_dir, boost::is_any_of("/"));
+    boost::split(lines, boost::filesystem::current_path().string(), boost::is_any_of("/"));
 
 
     if (strs[0] == ".."){
@@ -58,10 +76,8 @@ int cd(){
             g+="/";
             g+=lines[i];
         }
-        curr_dir = g;
-       // cout<<curr_dir<<endl;
 
-        const char * c = curr_dir.c_str();
+        const char * c = boost::filesystem::current_path().string().c_str();
         chdir(c);
     }else if (strs[0] == "."){
         for (int i=1; i<lines.size(); i++){
@@ -73,8 +89,7 @@ int cd(){
             g+=strs[i];
         }
         if (fs::is_directory(g)){
-            curr_dir = g;
-            const char * c = curr_dir.c_str();
+            const char * c = boost::filesystem::current_path().string().c_str();
             chdir(c);
         }else{
             cout<<"Error. Try again"<< endl;
@@ -86,82 +101,108 @@ int cd(){
 
    else if (fs::is_directory(args)){//full directory
        chdir(args.c_str());
-       curr_dir = args;
    }else{
         cout<<"no such directory"<<endl;
     }
 
 
     return 0;
+#endif
 
+
+
+
+int startNewProcess(const char * args[])
+{
+    pid_t childPid;
+    childPid = fork();
+    if (childPid == 0)
+    {
+        execvp(args[0], const_cast<char * const *>(args) );
+        cout<<"eroor"<<endl;
+        std::cout << strerror(errno) << std::endl;
+    } else if (childPid < 0)
+    {
+        std::cout << "balbla" << std::endl;
+        return -1;
+    } else {
+        waitpid(-1, nullptr, 0);
+    }
+    return 0 ;
+}
+
+int callOuter(const std::vector<std::string>& args)
+{
+    set<string> my_commands{"mycp", "mymv", "myrm", "mymkdir", "myls"};
+    const char * argv[args.size()+1];
+    for (int i = 0; i < args.size(); i++) {
+        argv[i] = args[i].c_str();
+    }
+    argv[args.size()] = nullptr;
+    if (my_commands.find(args[0]) != my_commands.end()){
+        string str1("./");
+        str1 += args[0];
+        argv[0] = str1.c_str();
+    }
+    startNewProcess(argv);
+
+    return 0 ;
 }
 
 
 int main(int argc, char* argv[], char**env)
+
 {
     string input = "";
 
     pid_t pid, wpid;
     int status;
-
+    vector<string> splitVec;
+    //boost::split(splitVec, input, boost::is_any_of(" "), boost::token_compress_on);
 
     while(true) {
         printf("> ");
         getline(cin, input);
-        splitString(input);
+        //splitString(input);
+        boost::split(splitVec, input, boost::is_any_of(" "), boost::token_compress_on);
+        string cm = splitVec[0];
 
-        pid = fork();
-
-        if (pid == -1) {
-            perror("fork failed");
-            exit(EXIT_FAILURE);
-        } else if (pid == 0) {
-
-            if (cm == "pwd") {
-                if (a == "-h" || a == "--help") {
-                    cout << "pwd: print current directory" << endl;
-                } else {
-                    cout << curr_dir;
-                    //            }else{
-                    //                cout <<"incorrect input"<<endl;
-                }
+        if (cm == "pwd") {
+               pwd(splitVec);
             } else if (cm == "cd") {
-                cd();
+                cd(splitVec);
 
             } else if (cm == "exit") {
-                if (a == "-h" || a == "--help") {
+                if (splitVec[1] == "-h" || splitVec[1] == "--help") {
                     cout << "exit[code of ending] finishes work and can return text of ending" << endl;
-                } else if (a != "") {
-                    cout << a << endl;
+                } else if (splitVec[1] != "") {
+                    cout << splitVec[1] << endl;
                 }
                 break;
-            } else if (cm == "mv") {
-                mv(curr_dir, a);
-            } else if (cm == "cp") {
-                int pos = a.find(" /");
-                string ar = a;
-                string from = ar.substr(0, pos);
-                string to = ar.substr(pos + 1, a.length() - 1);
-                cout << "from: " << from << ",   to: " << to << endl;
-                cp(from, to);
-
-            } else if (cm == "rm") {
-                rm(a);
+//
+//            } else if (cm == "mv") {
+//                mv(boost::filesystem::current_path().string(), a);
+//           }  else if (cm == "rm") {
+//                rm(a);
             } else if (cm == "help") {
                 cout << "help: rm cp mv exit cd pwd ls mkdir" << endl;
+//
+//            } else if (cm == "ls") {
+//                ls(a, boost::filesystem::current_path().string());
+//            } else if (cm == "mkdir") {
+//                mkdir(boost::filesystem::current_path().string(), a);
+            }else {
+                callOuter(splitVec);
 
-            } else if (cm == "ls") {
-                ls(a, curr_dir);
-            } else if (cm == "mkdir") {
-                mkdir(curr_dir, a);
-            }else{
-                cout<<"incorrect command"<<endl;
+//                int pos = a.find(" /");
+//                string ar = a;
+//                string from = ar.substr(0, pos);
+//                string to = ar.substr(pos + 1, a.length() - 1);
+//                cout << "from: " << from << ",   to: " << to << endl;
+//                cp(from, to);
+
             }
-        } else {
-            do {
-                wpid = waitpid(pid, &status, WUNTRACED);
-            } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-        }
+
 
         cout << "\n";
 

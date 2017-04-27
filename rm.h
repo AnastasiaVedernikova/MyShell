@@ -13,7 +13,7 @@
 
 namespace fs = boost::filesystem;
 
-void rm(std::string file);
+int rm(std::string file);
 
 #endif //MYSHELL_RM_H
 

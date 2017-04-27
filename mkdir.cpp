@@ -5,9 +5,7 @@
 #include "mkdir.h"
 using namespace std;
 
-int mkdir(string curr_dir, string a){
-    std::vector<std::string> lines;
-    boost::split(lines, a, boost::is_any_of(" "));
+void mkdir(string a, string curr_dir){
     if(a == "-h" || a == "--help"){
         cout<<"creates new directory" <<endl;
     }else {
@@ -18,6 +16,6 @@ int mkdir(string curr_dir, string a){
             boost::filesystem::create_directory(curr_dir + "/" + a);
         }
     }
-    return 1;
+
 }
 

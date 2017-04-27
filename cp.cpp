@@ -4,6 +4,7 @@
 #include "cp.h"
 using namespace std;
 bool cp(string copy_from, string copy_to) {
+    cout<<"HEYYYY"<<endl;
     string s_path, d_path;
     vector<string> lst;
     string s1 = "";

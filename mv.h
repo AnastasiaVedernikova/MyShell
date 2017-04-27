@@ -11,7 +11,7 @@
 
 namespace fs = boost::filesystem;
 
-void mv(std::string curr_dir, std::string args);
+void mv(std::string args, std::string curr_dir);
 
 #endif //MYSHELL_MV_H
 

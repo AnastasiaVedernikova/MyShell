@@ -5,10 +5,11 @@
 #include "mv.h"
 using namespace std;
 
-void mv(string curr_dir, string args) {
+void mv(string args, string curr_dir) {
 
     std::vector<std::string> strs;//arguments
     boost::split(strs, args, boost::is_any_of(" "));
+
 
     if (strs[0] == "-h" || strs[0] == "--help"){
         cout<<"mv: usage: [-f], [old_name, new_name], [src, src, dest]"<< endl;
@@ -26,6 +27,7 @@ void mv(string curr_dir, string args) {
      }else if(strs.size() == 2){                             //rename не мовчки
          string input = "";
          cout << "Are you sure that you want to rename this file (y/n)?" << endl;
+
          getline(cin, input);
          if (input == "y") {
              fs::path src(curr_dir + "/" + strs[0]);

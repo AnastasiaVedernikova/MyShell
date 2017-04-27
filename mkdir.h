@@ -13,7 +13,7 @@
 namespace fs = boost::filesystem;
 
 
-int mkdir(std::string curr_dir, std::string a);
+void mkdir(std::string a,std::string curr_dir);
 
 #endif //MYSHELL_MKDIR_H
 
