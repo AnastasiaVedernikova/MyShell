@@ -15,7 +15,7 @@
 namespace fs = boost::filesystem;
 
 
-int ls(std::string curr_dir, std::string a);
+int ls(std::string a, std::string curr_dir);
 
 #endif //MYSHELL_LS_H
 

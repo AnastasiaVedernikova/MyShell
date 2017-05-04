@@ -11,7 +11,7 @@
 #include <set>
 //TO DO
 //розібратись з cd(після нього не паше ніц)
-//дописати ls cp
+//дописати ls cp(git)
 
 
 
@@ -139,11 +139,11 @@ int callOuter(const std::vector<std::string>& args)
         argv[i] = args[i].c_str();
     }
     argv[args.size()] = nullptr;
-    if (my_commands.find(args[0]) != my_commands.end()){
-        string str1("./");
-        str1 += args[0];
-        argv[0] = str1.c_str();
-    }
+//    if (my_commands.find(args[0]) != my_commands.end()){
+//        //string str1("./");
+//       // str1 += args[0];
+//        argv[0] = str1.c_str();
+//    }
     startNewProcess(argv);
 
     return 0 ;

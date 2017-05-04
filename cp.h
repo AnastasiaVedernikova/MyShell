@@ -77,17 +77,18 @@
 //        cout << "No such directory!"<< endl;
 //
 //}
-#ifndef SHELL_1_CP_H
-#define SHELL_1_CP_H
+
+#ifndef MYSHELL_CP_H
+#define MYSHELL_CP_H
 
 #include <string>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
-
+//#include "main.cpp"
 
 namespace fs = boost::filesystem;
 
-bool cp(std::string copy_from, std::string copy_to);
+void cp(std::string copy_from, std::string copy_to);
 
-#endif //SHELL_1_CP_H
+#endif //MYSHELL_CP_H
