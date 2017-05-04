@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
             a+=" ";
         }
 
+
     }
 
     mv(a, boost::filesystem::current_path().string());

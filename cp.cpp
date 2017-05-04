@@ -38,6 +38,7 @@ void cp(string copy_from, string copy_to) {
         dest_file_name = copy_to;
     }
 
+
     else {
         vector<string> destination_path;
         boost::split(destination_path, copy_to, boost::is_any_of("/"));
