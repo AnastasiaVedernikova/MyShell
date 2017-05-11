@@ -111,7 +111,6 @@ int pwd(std::vector<std::string>& a){
 
 
 
-
 int startNewProcess(const char * args[])
 {
 
@@ -125,7 +124,8 @@ int startNewProcess(const char * args[])
     } else if (childPid < 0)
     {
         std::cout << "balbla" << std::endl;
-        return -1;
+        exit(0);
+      //  return -1;
     } else {
         waitpid(-1, nullptr, 0);
     }
@@ -186,12 +186,15 @@ int main(int argc, char* argv[], char**env)
 //           }  else if (cm == "rm") {
 //                rm(a);
             } else if (cm == "help") {
-                cout << "help: rm cp mv exit cd pwd ls mkdir" << endl;
+            cout << "help: myrm mycp mymv exit cd pwd myls mymkdir" << endl;
 //
 //            } else if (cm == "ls") {
 //                ls(a, boost::filesystem::current_path().string());
 //            } else if (cm == "mkdir") {
 //                mkdir(boost::filesystem::current_path().string(), a);
+            }else if (boost::starts_with(cm, "#")){
+            continue;
+
             }else {
                 callOuter(splitVec);
 
