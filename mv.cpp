@@ -11,7 +11,7 @@ void mv(string args, string curr_dir) {
     std::vector<std::string> strs;//arguments
     boost::split(strs, args, boost::is_any_of(" "));
 
-
+   // cout<<strs[0]<<endl;
     if (strs[0] == "-h" || strs[0] == "--help"){
         cout<<"mv: usage: [-f], [old_name, new_name], [src, src, dest]"<< endl;
     }
@@ -29,6 +29,7 @@ void mv(string args, string curr_dir) {
         //rename не мовчки
         fs::path src(curr_dir + "/" + strs[0]);
         fs::path dest(curr_dir + "/" + strs[1]);
+        string a = strs[0];
         if (boost::filesystem::exists(src)){
             string input = "";
             cout << "Are you sure that you want to rename this file (y/n)?" << endl;
@@ -54,7 +55,7 @@ void mv(string args, string curr_dir) {
       //  boost::filesystem::exists(strs[i])
         int ex = 0;
         for (int i = 0; i < strs.size(); i++) {
-            if (boost::filesystem::exists(strs[i])){
+            if (boost::filesystem::exists(boost::filesystem::current_path().string()+"/"+strs[i])){
                 ex += 1;
             }
         }

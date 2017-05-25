@@ -15,12 +15,8 @@
 //anastasia@anastasia-Latitude-3340:~/CLionProjects/MyShell/cmake-build-debug$ export PATH=$PATH:`pwd`
 
 
-
-
-
 using namespace std;
 namespace fs = boost::filesystem;
-
 
 
 #if 0
@@ -174,9 +170,6 @@ int executeCommand(string input, int status){
 
   return status;
 }
-
-
-
 
 int main(int argc, char* argv[], char**env)
 

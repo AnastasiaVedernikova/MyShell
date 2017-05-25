@@ -7,12 +7,13 @@ int rm(string file){
     std::vector<std::string> strs;//arguments
     boost::split(strs, file, boost::is_any_of(" "));
 
+
     if (strs[0] == "-h" || strs[0] == "--help"){
         cout<<"rm: usage: [-f], [-R], [dir], [file], [file1, file2, file3]"<<endl;
     }
     else if(strs[0] == "-f" && strs[1] == "-R"){
         for(int i=2; i<strs.size(); i++){//+1
-            if(boost::filesystem::exists(strs[i])) {
+            if(boost::filesystem::exists(boost::filesystem::current_path().string()+"/"+strs[i])) {
                 boost::filesystem::remove_all(strs[i]);
             }
         }
@@ -20,7 +21,7 @@ int rm(string file){
         // /home/anastasia/CLionProjects/SHELL
         int ex = 0;
         for (int i = 1; i < strs.size(); i++) {//+1
-            if (boost::filesystem::exists(strs[i])){
+            if (boost::filesystem::exists(boost::filesystem::current_path().string()+"/"+strs[i])){
                 ex += 1;
             }
         }

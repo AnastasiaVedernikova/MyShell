@@ -106,11 +106,12 @@ int main(int argc, char *argv[]) {
         a += " ";
     }
     //if (argv)
-    if (!boost::filesystem::exists(argv[1]) && argv[1]!="-h" && argv[1]!="--help" && argv[1]!="f"){
+    //cout<<boost::filesystem::current_path().string()+"/"+argv[1]<<endl;
+    if (!boost::filesystem::exists(boost::filesystem::current_path().string()+"/"+argv[1]) && argv[1]!="-h" && argv[1]!="--help" && argv[1]!="f"){
         cout<<"No such directory!"<<endl;
         exit(1);
     }
-    if(!boost::filesystem::exists(argv[2]) && argv[1]=="f"){
+    if(!boost::filesystem::exists(boost::filesystem::current_path().string()+"/"+argv[2]) && argv[1]=="f"){
         cout<<"No such directory!"<<endl;
         exit(1);
     }
