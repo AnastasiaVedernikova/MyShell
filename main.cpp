@@ -6,6 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/algorithm/string.hpp>
+#include <regex>
 
 #include <sys/wait.h>
 #include <set>
@@ -119,13 +120,11 @@ int startNewProcess(const char * args[])
     if (childPid == 0)
     {
         execvp(args[0], const_cast<char * const *>(args) );
-        cout<<"eroor"<<endl;
+        cout<<"error"<<endl;
         std::cout << strerror(errno) << std::endl;
     } else if (childPid < 0)
     {
-        std::cout << "balbla" << std::endl;
-        exit(0);
-      //  return -1;
+        exit(-1);
     } else {
         waitpid(-1, nullptr, 0);
     }
@@ -134,7 +133,7 @@ int startNewProcess(const char * args[])
 
 int callOuter(const std::vector<std::string>& args)
 {
-    set<string> my_commands{"mycp", "mymv", "myrm", "mymkdir", "myls"};
+    set<string> my_commands{"mycp", "mymv", "myrm", "mymkdir", "myls", "ownls"};
     const char * argv[args.size()+1];
     for (int i = 0; i < args.size(); i++) {
         argv[i] = args[i].c_str();
@@ -165,7 +164,8 @@ int main(int argc, char* argv[], char**env)
         printf("> ");
         getline(cin, input);
         //splitString(input);
-        boost::split(splitVec, input, boost::is_any_of(" "), boost::token_compress_on);
+       // boost::split(splitVec, input, boost::is_any_of(" "), boost::token_compress_on);
+        boost::split(splitVec, input, boost::is_space(), boost::token_compress_on);
         string cm = splitVec[0];
 
         if (cm == "pwd") {
@@ -177,7 +177,8 @@ int main(int argc, char* argv[], char**env)
                 if (splitVec[1] == "-h" || splitVec[1] == "--help") {
                     cout << "exit[code of ending] finishes work and can return text of ending" << endl;
                 } else if (splitVec[1] != "") {
-                    cout << splitVec[1] << endl;
+                    int c = std::stoi(splitVec[1]);
+                    exit(c);
                 }
                 break;
 //
@@ -194,6 +195,9 @@ int main(int argc, char* argv[], char**env)
 //                mkdir(boost::filesystem::current_path().string(), a);
             }else if (boost::starts_with(cm, "#")){
             continue;
+//            }else if (cm == "myls"){
+//                new_ls(splitVec);
+
 
             }else {
                 callOuter(splitVec);

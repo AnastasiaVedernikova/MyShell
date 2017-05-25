@@ -17,7 +17,7 @@ int main(int argc, char * argv[])
 {//done
     cout<<"i am mkdir"<<endl;
     string a = "";
-    string al= argv[1];//directory
+    string al= argv[1];//directory- argument
     mkdir(al, boost::filesystem::current_path().string());//trabl cd
 
     return 0;
