@@ -95,17 +95,17 @@ namespace fs = boost::filesystem;
 
 int main(int argc, char *argv[]) {
 
-    int c = 0;
-    while(argv[++c] != NULL);
+//    int c = 0;
+//    while(argv[++c] != NULL);
 
     string a = "";
 
-    for(int i = 1; i < c; i++){
+    for(int i = 1; i < argc; i++){
         string m = argv[i];
         a += m;
         a += " ";
     }
-
+    //if (argv)
     if (!boost::filesystem::exists(argv[1]) && argv[1]!="-h" && argv[1]!="--help" && argv[1]!="f"){
         cout<<"No such directory!"<<endl;
         exit(1);

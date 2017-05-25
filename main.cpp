@@ -7,10 +7,12 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/algorithm/string.hpp>
 #include <regex>
+#include <fstream>
 
 #include <sys/wait.h>
 #include <set>
 //done
+//anastasia@anastasia-Latitude-3340:~/CLionProjects/MyShell/cmake-build-debug$ export PATH=$PATH:`pwd`
 
 
 
@@ -20,9 +22,6 @@ using namespace std;
 namespace fs = boost::filesystem;
 
 
-// string curr_dir = ""; //"/usr/bin";
-//string a = "";
-//string cm = "";
 
 #if 0
 void splitString( string line){
@@ -132,88 +131,94 @@ int startNewProcess(const char * args[])
 
 int callOuter(const std::vector<std::string>& args)
 {
-    set<string> my_commands{"mycp", "mymv", "myrm", "mymkdir", "myls", "ownls"};
     const char * argv[args.size()+1];
     for (int i = 0; i < args.size(); i++) {
         argv[i] = args[i].c_str();
     }
     argv[args.size()] = nullptr;
-//    if (my_commands.find(args[0]) != my_commands.end()){
-//        //string str1("./");
-//       // str1 += args[0];
-//        argv[0] = str1.c_str();
-//    }
     startNewProcess(argv);
 
     return 0 ;
+
 }
+
+int executeCommand(string input, int status){
+    vector<string> splitVec;
+        boost::split(splitVec, input, boost::is_space(), boost::token_compress_on);
+        string cm = splitVec[0];
+        if (cm == "pwd") {
+            pwd(splitVec);
+        } else if (cm == "cd") {
+            cd(splitVec);
+
+        } else if (cm == "exit") {
+            if (splitVec[1] == "-h" || splitVec[1] == "--help") {
+                cout << "exit[code of ending] finishes work and can return text of ending" << endl;
+            } else if (splitVec[1] != "") {
+                int c = std::stoi(splitVec[1]);
+                exit(c);
+            }
+            status = 0;
+           // break;
+        } else if (cm == "help") {
+            cout << "help: myrm mycp mymv exit cd pwd myls mymkdir" << endl;
+        } else if (boost::starts_with(cm, "#")) {
+            status = 1;
+           // continue;
+
+        } else {
+            callOuter(splitVec);
+
+        }
+        cout << "\n";
+
+  return status;
+}
+
+
 
 
 int main(int argc, char* argv[], char**env)
 
-{
-    string input = "";
-
-    pid_t pid, wpid;
-    int status;
+{  //.MyShell ttt
     vector<string> splitVec;
-    //boost::split(splitVec, input, boost::is_any_of(" "), boost::token_compress_on);
-
-    while(true) {
-        printf("> ");
-        getline(cin, input);
-        //splitString(input);
-       // boost::split(splitVec, input, boost::is_any_of(" "), boost::token_compress_on);
-        boost::split(splitVec, input, boost::is_space(), boost::token_compress_on);
-        string cm = splitVec[0];
-
-        if (cm == "pwd") {
-               pwd(splitVec);
-            } else if (cm == "cd") {
-                cd(splitVec);
-
-            } else if (cm == "exit") {
-                if (splitVec[1] == "-h" || splitVec[1] == "--help") {
-                    cout << "exit[code of ending] finishes work and can return text of ending" << endl;
-                } else if (splitVec[1] != "") {
-                    int c = std::stoi(splitVec[1]);
-                    exit(c);
-                }
+    string line = "";
+    string input = "";
+    ifstream f;
+    if (argc>1) {
+        f.open(argv[1]);
+        if(!f.is_open())
+        {
+            cerr << "Error " << endl;
+            exit(1);
+        }
+        while (getline(f, line)) {
+            cout<<line<<endl;
+            int status = executeCommand(line, 1);
+            if (status == 0){
                 break;
-//
-//            } else if (cm == "mv") {
-//                mv(boost::filesystem::current_path().string(), a);
-//           }  else if (cm == "rm") {
-//                rm(a);
-            } else if (cm == "help") {
-            cout << "help: myrm mycp mymv exit cd pwd myls mymkdir" << endl;
-//
-//            } else if (cm == "ls") {
-//                ls(a, boost::filesystem::current_path().string());
-//            } else if (cm == "mkdir") {
-//                mkdir(boost::filesystem::current_path().string(), a);
-            }else if (boost::starts_with(cm, "#")){
-            continue;
-//            }else if (cm == "myls"){
-//                new_ls(splitVec);
-
-
-            }else {
-                callOuter(splitVec);
-
-//                int pos = a.find(" /");
-//                string ar = a;
-//                string from = ar.substr(0, pos);
-//                string to = ar.substr(pos + 1, a.length() - 1);
-//                cout << "from: " << from << ",   to: " << to << endl;
-//                cp(from, to);
-
+            }else{
+                continue;
             }
+        }
 
-
-        cout << "\n";
 
     }
+    else{
+        while(true) {
+            printf("> ");
+            getline(cin, input);
+            int status = executeCommand(input, 1);
+            if (status == 0){
+                break;
+            }else{
+                continue;
+            }
+
+        }
+
+    }
+
 
     return 0;
 
