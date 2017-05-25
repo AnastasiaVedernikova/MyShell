@@ -10,9 +10,8 @@
 
 #include <sys/wait.h>
 #include <set>
-//TO DO
-//розібратись з cd(після нього не паше ніц)
-//дописати ls cp(git)
+//done
+
 
 
 

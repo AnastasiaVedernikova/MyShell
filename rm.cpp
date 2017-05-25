@@ -2,6 +2,7 @@
 #include "rm.h"
 using namespace std;
 int rm(string file){
+    //done
     ///home/anastasia/CLionProjects/MyShell
     std::vector<std::string> strs;//arguments
     boost::split(strs, file, boost::is_any_of(" "));

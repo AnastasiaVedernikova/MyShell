@@ -15,8 +15,9 @@
 using namespace std;
 namespace fs = boost::filesystem;
 int main(int argc, char *argv[])
-{
 //done
+{
+
     int count = 0;
     while(argv[++count] != NULL);
 

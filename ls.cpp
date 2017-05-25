@@ -1,6 +1,7 @@
 //
 // Created by anastasia on 19.04.17.
 //
+//done
 #include "ls.h"
 //using namespace std;
 //int ls(string a, string curr_dir) {
